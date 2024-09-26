@@ -12,7 +12,6 @@ public class EstudianteDTO {
     private String genero;
     private String ciudadResidencia;
     private String numeroLibretaUniversitaria;
-  //  private List<Carrera> carreras = new ArrayList<>();
 
 
     public EstudianteDTO(String dni, String nombres, String apellido, String genero, String ciudadResidencia ,String numeroLibretaUniversitaria) {
@@ -73,13 +72,6 @@ public class EstudianteDTO {
         this.numeroLibretaUniversitaria = numeroLibretaUniversitaria;
     }
 
-  //  public List<Carrera> getCarreras() {
-  //      return carreras;
-  //  }
-
-  //  public void setCarreras(List<Carrera> carreras) {
-    //    this.carreras = carreras;
-   // }
 
     @Override
     public String toString() {
