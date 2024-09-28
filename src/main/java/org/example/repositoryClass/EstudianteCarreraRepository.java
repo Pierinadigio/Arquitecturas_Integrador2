@@ -1,13 +1,12 @@
-package org.example.repositoryImplementaciones;
+package org.example.repositoryClass;
 
 import org.example.DTO.EstudianteDTO;
-import org.example.DTO.EstudiantesCarreraDTO;
 import org.example.DTO.ReporteDTO;
 import org.example.entidades.Carrera;
 import org.example.entidades.Estudiante;
 import org.example.entidades.Estudiante_Carrera;
-import org.example.repository.Estudiante_CarreraRepository;
-
+import org.example.repository.BaseJPARepository;
+import org.example.DTO.EstudiantesCarreraDTO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -18,29 +17,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Estudiante_CarreraRepositoryImpl implements Estudiante_CarreraRepository {
-    private EntityManagerFactory emf;
-    private static Estudiante_CarreraRepositoryImpl estCarRepo= null;
+public class EstudianteCarreraRepository extends BaseJPARepository<Estudiante_Carrera, Long> {
+    private static EstudianteCarreraRepository instance;
 
-    private Estudiante_CarreraRepositoryImpl(EntityManagerFactory emf) {
-        this.emf = emf;
+
+    private EstudianteCarreraRepository(EntityManager em) {
+        super(em, Estudiante_Carrera.class, Long.class);
+
     }
 
-    public static Estudiante_CarreraRepositoryImpl newEstudiante_CarreraRepositoryImpl(EntityManagerFactory emf){
-        if(estCarRepo==null){
-            estCarRepo = new Estudiante_CarreraRepositoryImpl(emf);
+    public static synchronized EstudianteCarreraRepository getInstance(EntityManagerFactory emf) {
+        if (instance == null) {
+            EntityManager em = emf.createEntityManager();
+            instance = new EstudianteCarreraRepository(em);
         }
-        return estCarRepo;
+        return instance;
     }
-
 
     //Matricula un estudiante a una carrera
     public void matricularEstudiante(String dniEstudiante, long idCarrera, Date fechaInscripcion) {
-        EntityManager em = null;
         EntityTransaction transaction = null;
 
         try {
-            em = emf.createEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
 
@@ -48,6 +46,7 @@ public class Estudiante_CarreraRepositoryImpl implements Estudiante_CarreraRepos
             if (estudiante == null) {
                 throw new IllegalArgumentException("Estudiante no encontrado con DNI: " + dniEstudiante);
             }
+
             Carrera carrera = em.find(Carrera.class, idCarrera);
             if (carrera == null) {
                 throw new IllegalArgumentException("Carrera no encontrada con ID: " + idCarrera);
@@ -66,33 +65,22 @@ public class Estudiante_CarreraRepositoryImpl implements Estudiante_CarreraRepos
                 transaction.rollback();
             }
             e.printStackTrace();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
-    //Obtiene carreras con estudiantes inscriptos
+    // Obtiene carreras con estudiantes inscriptos
     public List<EstudiantesCarreraDTO> obtenerCarrerasConEstudiantesInscritos() {
-        EntityManager em = emf.createEntityManager();
-
         String jpql = "SELECT new org.example.DTO.EstudiantesCarreraDTO(c.nombre, COUNT(ec.estudiante)) " +
                 "FROM Carrera c JOIN Estudiante_Carrera ec ON c.id = ec.carrera.id " +
                 "GROUP BY c.id, c.nombre " +
                 "ORDER BY COUNT(ec.estudiante) DESC";
 
         TypedQuery<EstudiantesCarreraDTO> query = em.createQuery(jpql, EstudiantesCarreraDTO.class);
-        List<EstudiantesCarreraDTO> resultados = query.getResultList();
-
-        em.close();
-        return resultados;
+        return query.getResultList();
     }
 
-    //Obtiene estudiantes por carrera y ciudad
+    // Obtiene estudiantes por carrera y ciudad
     public List<EstudianteDTO> obtenerEstudiantesPorCarreraYCiudad(long idCarrera, String ciudad) {
-        EntityManager em = emf.createEntityManager();
-
         String jpql = "SELECT e " +
                 "FROM Estudiante_Carrera ec JOIN ec.estudiante e " +
                 "WHERE ec.carrera.id = :idCarrera AND e.ciudadResidencia = :ciudad";
@@ -102,8 +90,7 @@ public class Estudiante_CarreraRepositoryImpl implements Estudiante_CarreraRepos
         query.setParameter("ciudad", ciudad);
 
         List<Estudiante> estudiantes = query.getResultList();
-        em.close();
-       return estudiantes.stream()
+        return estudiantes.stream()
                 .map(e -> new EstudianteDTO(
                         e.getDni(),
                         e.getNombres(),
@@ -114,9 +101,8 @@ public class Estudiante_CarreraRepositoryImpl implements Estudiante_CarreraRepos
                 .collect(Collectors.toList());
     }
 
-   //Genera reporte de careras con estudiantes inscriptos y egresados por anio
+    // Genera reporte de carreras con estudiantes inscriptos y egresados por año
     public List<ReporteDTO> generarReporteCarreras() {
-        EntityManager em = emf.createEntityManager();
         // Obtener las carreras
         String jpqlCarreras = "SELECT c FROM Carrera c ORDER BY c.nombre";
         TypedQuery<Carrera> queryCarreras = em.createQuery(jpqlCarreras, Carrera.class);
@@ -140,7 +126,7 @@ public class Estudiante_CarreraRepositoryImpl implements Estudiante_CarreraRepos
                             e -> (Long) e[1]
                     ));
 
-           Map<Integer, Long> egresadosPorAno = em.createQuery(
+            Map<Integer, Long> egresadosPorAno = em.createQuery(
                             "SELECT YEAR(ec.fechaInscripcion), COUNT(ec) " +
                                     "FROM Estudiante_Carrera ec " +
                                     "WHERE ec.carrera.id = :idCarrera AND ec.isGraduado = true " +
@@ -157,14 +143,6 @@ public class Estudiante_CarreraRepositoryImpl implements Estudiante_CarreraRepos
             reportes.add(new ReporteDTO(carrera.getNombre(), inscriptosPorAno, egresadosPorAno));
         }
 
-        em.close();
         return reportes;
-    }
-
-    // Cierra el EntityManagerFactory al finalizar
-    public void close() {
-        if (emf != null) {
-            emf.close();
-        }
     }
 }

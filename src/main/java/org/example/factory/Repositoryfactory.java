@@ -1,17 +1,18 @@
 package org.example.factory;
 
-import org.example.repositoryImplementaciones.CarreraRepositoryImpl;
-import org.example.repositoryImplementaciones.EstudianteRepositoryImpl;
-import org.example.repositoryImplementaciones.Estudiante_CarreraRepositoryImpl;
+import org.example.repositoryClass.CarreraRepository;
+import org.example.repositoryClass.EstudianteCarreraRepository;
+import org.example.repositoryClass.EstudianteRepository;
+
 
 public abstract class Repositoryfactory {
     public static final int MYSQL_JDBC = 1;
     public static final int DERBY_JDBC = 2;
 
 
-    public abstract EstudianteRepositoryImpl getEstudianteRepository();
-    public abstract CarreraRepositoryImpl getCarreraRepository();
-    public abstract Estudiante_CarreraRepositoryImpl getEstudiante_CarreraRepository();
+    public abstract EstudianteRepository getEstudianteRepository();
+    public abstract CarreraRepository getCarreraRepository();
+    public abstract EstudianteCarreraRepository getEstudianteCarreraRepository();
 
 
     public static Repositoryfactory getRepositoryFactory(int whichFactory) {

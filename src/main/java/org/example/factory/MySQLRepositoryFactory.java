@@ -1,8 +1,8 @@
 package org.example.factory;
 
-import org.example.repositoryImplementaciones.CarreraRepositoryImpl;
-import org.example.repositoryImplementaciones.EstudianteRepositoryImpl;
-import org.example.repositoryImplementaciones.Estudiante_CarreraRepositoryImpl;
+import org.example.repositoryClass.CarreraRepository;
+import org.example.repositoryClass.EstudianteCarreraRepository;
+import org.example.repositoryClass.EstudianteRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -15,18 +15,20 @@ public class MySQLRepositoryFactory extends Repositoryfactory {
         this.emf = Persistence.createEntityManagerFactory("mysql_persistence_unit");
     }
 
-    public EstudianteRepositoryImpl getEstudianteRepository() {
-        return new EstudianteRepositoryImpl(emf);
+    public EstudianteRepository getEstudianteRepository() {
+        return EstudianteRepository.getInstance(emf);
     }
 
-    public CarreraRepositoryImpl getCarreraRepository() {
-        return CarreraRepositoryImpl.newCarreraRepositoryImpl(emf);
+
+    public CarreraRepository getCarreraRepository() {
+
+        return CarreraRepository.getInstance(emf);
     }
 
-    public Estudiante_CarreraRepositoryImpl getEstudiante_CarreraRepository() {
-        return Estudiante_CarreraRepositoryImpl.newEstudiante_CarreraRepositoryImpl(emf);
-    }
+    public EstudianteCarreraRepository getEstudianteCarreraRepository() {
 
+        return EstudianteCarreraRepository.getInstance(emf);
+    }
 
 
 

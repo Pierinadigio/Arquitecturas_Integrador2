@@ -3,12 +3,10 @@ import com.opencsv.CSVReader;
 import org.example.DTO.EstudianteDTO;
 import org.example.DTO.EstudiantesCarreraDTO;
 import org.example.DTO.ReporteDTO;
-import org.example.repositoryImplementaciones.CarreraRepositoryImpl;
-import org.example.repositoryImplementaciones.EstudianteRepositoryImpl;
+import org.example.repositoryClass.*;
 import org.example.entidades.Carrera;
 import org.example.entidades.Estudiante;
 import org.example.factory.Repositoryfactory;
-import org.example.repositoryImplementaciones.Estudiante_CarreraRepositoryImpl;
 
 import java.io.FileReader;
 import java.util.Date;
@@ -16,11 +14,11 @@ import java.util.List;
 
 public class Main {
     public static <Set> void main(String[] args) {
-        Repositoryfactory RepositoryFactory = Repositoryfactory.getRepositoryFactory(1);
+        Repositoryfactory RepositoryFactory = Repositoryfactory.getRepositoryFactory(2);
 
-        EstudianteRepositoryImpl estudianteRepository = RepositoryFactory.getEstudianteRepository();
-        CarreraRepositoryImpl carreraRepository = RepositoryFactory.getCarreraRepository();
-        Estudiante_CarreraRepositoryImpl estudiante_carreraRepository = RepositoryFactory.getEstudiante_CarreraRepository();
+        EstudianteRepository estudianteRepository = RepositoryFactory.getEstudianteRepository();
+        CarreraRepository carreraRepository = RepositoryFactory.getCarreraRepository();
+        EstudianteCarreraRepository estudiante_carreraRepository = RepositoryFactory.getEstudianteCarreraRepository();
 
         // Cargar Estudiantes desde CSV
         cargarEstudiantesDesdeCSV(estudianteRepository, "src/main/java/org/example/datasets/estudiantes.csv");
@@ -113,7 +111,7 @@ public class Main {
 
 
 
-    private static void cargarEstudiantesDesdeCSV(EstudianteRepositoryImpl estudianteRepository, String archivoCsv) {
+    private static void cargarEstudiantesDesdeCSV(EstudianteRepository estudianteRepository, String archivoCsv) {
         try (CSVReader csvReader = new CSVReader(new FileReader(archivoCsv))) {
             String[] fila;
             while ((fila = csvReader.readNext()) != null) {
@@ -133,7 +131,7 @@ public class Main {
         }
     }
 
-    private static void cargarCarrerasDesdeCSV(CarreraRepositoryImpl carreraRepository, String archivoCsv) {
+    private static void cargarCarrerasDesdeCSV(CarreraRepository carreraRepository, String archivoCsv) {
         try (CSVReader csvReader = new CSVReader(new FileReader(archivoCsv))) {
             String[] fila;
             while ((fila = csvReader.readNext()) != null) {

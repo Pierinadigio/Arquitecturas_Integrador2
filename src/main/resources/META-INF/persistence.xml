@@ -7,7 +7,9 @@
     <!-- Unidad de Persistencia para MySQL -->
     <persistence-unit name="mysql_persistence_unit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
+        <class>org.example.entidades.Carrera</class>
+        <class>org.example.entidades.Estudiante</class>
+        <class>org.example.entidades.Estudiante_Carrera</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Integrador2"/>
