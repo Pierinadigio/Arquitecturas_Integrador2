@@ -1,8 +1,8 @@
 package org.example.factory;
 
-import org.example.repositoryClass.CarreraRepository;
-import org.example.repositoryClass.EstudianteCarreraRepository;
-import org.example.repositoryClass.EstudianteRepository;
+import org.example.repositoryImplementaciones.CarreraRepository;
+import org.example.repositoryImplementaciones.EstudianteCarreraRepository;
+import org.example.repositoryImplementaciones.EstudianteRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

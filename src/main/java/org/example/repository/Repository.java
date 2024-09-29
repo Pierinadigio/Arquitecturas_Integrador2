@@ -8,6 +8,5 @@ public interface Repository <Entity, ID extends Serializable> {
         public List<Entity> findAll();
         public void insert (Entity entity);
         public void delete(Entity entity);
-        public void close();
 
 }

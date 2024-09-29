@@ -1,7 +1,7 @@
-package org.example.repositoryClass;
+package org.example.repositoryImplementaciones;
 import org.example.DTO.EstudianteDTO;
 import org.example.entidades.Estudiante;
-import org.example.repository.BaseJPARepository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 public class EstudianteRepository extends BaseJPARepository<Estudiante, String> {
     private static EstudianteRepository instance;
-    private EntityManagerFactory emf;
+
     private EstudianteRepository(EntityManager em) {
         super(em, Estudiante.class, String.class);
-        this.emf = emf;
+
     }
 
     public static EstudianteRepository getInstance(EntityManagerFactory emf) {

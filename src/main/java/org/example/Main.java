@@ -3,10 +3,12 @@ import com.opencsv.CSVReader;
 import org.example.DTO.EstudianteDTO;
 import org.example.DTO.EstudiantesCarreraDTO;
 import org.example.DTO.ReporteDTO;
-import org.example.repositoryClass.*;
 import org.example.entidades.Carrera;
 import org.example.entidades.Estudiante;
 import org.example.factory.Repositoryfactory;
+import org.example.repositoryImplementaciones.CarreraRepository;
+import org.example.repositoryImplementaciones.EstudianteCarreraRepository;
+import org.example.repositoryImplementaciones.EstudianteRepository;
 
 import java.io.FileReader;
 import java.util.Date;
@@ -47,14 +49,14 @@ public class Main {
         // Punto c) Recuperar estudiantes ordenados
         // Ordenados por apellido
         List<EstudianteDTO> estudiantesOrdenadosPorApellido = estudianteRepository.listarEstudiantesOrdenados("apellido");
-        System.out.println("Estudiantes ordenados por apellido:");
+        System.out.println("PUNTO C: Estudiantes ordenados por apellido:");
         for (EstudianteDTO estudiante : estudiantesOrdenadosPorApellido) {
             System.out.println(estudiante);
         }
 
         // Ordenados por número de libreta
         List<EstudianteDTO> estudiantesOrdenadosPorLibreta = estudianteRepository.listarEstudiantesOrdenados("libreta");
-        System.out.println("Estudiantes ordenados por número de libreta:");
+        System.out.println("PUNTO C: Estudiantes ordenados por número de libreta:");
         for (EstudianteDTO estudiante : estudiantesOrdenadosPorLibreta) {
             System.out.println(estudiante  + "Nro Libreta :" + estudiante.getNumeroLibretaUniversitaria());
         }
@@ -62,7 +64,7 @@ public class Main {
         //Punto d) Obtener Estudiante por Número de Libreta
        EstudianteDTO estudianteDTO = estudianteRepository.findByNumeroLibreta(e.getNumeroLibretaUniversitaria());
        if (estudianteDTO != null) {
-            System.out.println("Estudiante encontrado: " + estudianteDTO);
+            System.out.println("PUNTO D: Estudiante encontrado: " + estudianteDTO);
        } else {
             System.out.println("Estudiante no encontrado.");
        }
@@ -70,7 +72,7 @@ public class Main {
        //Punto e) Listar estudiantes por género
         String generoBuscado = "masculino";
         List<EstudianteDTO> estudiantesPorGenero = estudianteRepository.findByGenero(generoBuscado);
-        System.out.println("Listado estudiantes de género " + generoBuscado + ":");
+        System.out.println("PUNTO E: Listado estudiantes de género " + generoBuscado + ":");
         for (EstudianteDTO estudiante : estudiantesPorGenero) {
             System.out.println(estudiante);
         }
@@ -78,7 +80,7 @@ public class Main {
         //Punto f) carreras con estudiantes inscriptos
         List<EstudiantesCarreraDTO> carrerasConEstudiantes = estudiante_carreraRepository.obtenerCarrerasConEstudiantesInscritos();
 
-        System.out.println("Carreras con estudiantes inscritos, ordenadas por cantidad:");
+        System.out.println("PUNTO F: Carreras con estudiantes inscritos, ordenadas por cantidad:");
         for (EstudiantesCarreraDTO dto : carrerasConEstudiantes) {
             System.out.println(dto);
         }
@@ -88,7 +90,7 @@ public class Main {
         String ciudad = "Tandil";
         List<EstudianteDTO> estudiantes = estudiante_carreraRepository.obtenerEstudiantesPorCarreraYCiudad(idCarrera, ciudad);
 
-        System.out.println("Estudiantes en la carrera con ID " + idCarrera + " y ciudad " + ciudad + ":");
+        System.out.println("PUNTO G: Estudiantes en la carrera con ID " + idCarrera + " y ciudad " + ciudad + ":");
         for (EstudianteDTO estudiante : estudiantes) {
             System.out.println(estudiante);
         }
@@ -96,7 +98,7 @@ public class Main {
         //PUNTO 3
         List<ReporteDTO> reporteCarreras = estudiante_carreraRepository.generarReporteCarreras();
 
-        System.out.println("Reporte de Carreras:");
+        System.out.println("PUNTO 3: Reporte de Carreras:");
         for (ReporteDTO reporte : reporteCarreras) {
             System.out.println(reporte);
         }

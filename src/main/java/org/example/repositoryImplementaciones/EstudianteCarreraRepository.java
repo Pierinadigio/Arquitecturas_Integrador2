@@ -1,12 +1,12 @@
-package org.example.repositoryClass;
+package org.example.repositoryImplementaciones;
 
 import org.example.DTO.EstudianteDTO;
 import org.example.DTO.ReporteDTO;
 import org.example.entidades.Carrera;
 import org.example.entidades.Estudiante;
 import org.example.entidades.Estudiante_Carrera;
-import org.example.repository.BaseJPARepository;
 import org.example.DTO.EstudiantesCarreraDTO;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;

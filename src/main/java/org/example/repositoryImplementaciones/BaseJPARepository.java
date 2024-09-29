@@ -1,4 +1,6 @@
-package org.example.repository;
+package org.example.repositoryImplementaciones;
+import org.example.repository.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
