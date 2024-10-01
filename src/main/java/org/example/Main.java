@@ -170,49 +170,5 @@ public class Main {
         }
     }
 
-    public static void cargarEstudiantesCarreraDesdeCSV(
-            EstudianteRepository estudianteRepository,
-            CarreraRepository carreraRepository,
-            EstudianteCarreraRepository estudianteCarreraRepository,
-            String archivoCsv) {
-        try (CSVReader csvReader = new CSVReader(new FileReader(archivoCsv))) {
-            String[] fila;
-            while ((fila = csvReader.readNext()) != null) {
-                Estudiante_Carrera estudianteCarrera = new Estudiante_Carrera();
-//
-//                // Cargar datos del estudiante
-//                Estudiante estudiante = new Estudiante();
-//                estudiante.setDni(fila[0]);
-//                estudiante.setNombres(fila[1]);
-//                estudiante.setApellido(fila[2]);
-//                estudiante.setEdad(Integer.parseInt(fila[3]));
-//                estudiante.setGenero(fila[4]);
-//                estudiante.setNumeroLibretaUniversitaria(fila[5]);
-//                estudiante.setCiudadResidencia(fila[6]);
-//
-//                // Guardar el estudiante en el repositorio
-//                estudiante = estudianteRepository.save(estudiante);
-//
-//                // Cargar datos de la carrera
-//                Carrera carrera = carreraRepository.findById(Long.parseLong(fila[7])) // Suponiendo que la ID de carrera está en la columna 8
-//                        .orElseThrow(() -> new RuntimeException("Carrera no encontrada"));
-
-                // Cargar datos de Estudiante_Carrera
-                Estudiante estudiante   = estudianteRepository.findById(fila[5]);
-                Carrera carrera =carreraRepository.findById(Long.parseLong(fila[4]));
-                estudianteCarrera.setEstudiante(estudiante);
-                estudianteCarrera.setCarrera(carrera);
-                estudianteCarrera.setGraduado(Boolean.parseBoolean(fila[3])); // Suponiendo que esta es la columna 9
-                estudianteCarrera.setFechaInscripcion(new SimpleDateFormat("yyyy-MM-dd").parse(fila[2])); // Columna 10
-                estudianteCarrera.setAntiguedad(Integer.parseInt(fila[1])); // Columna 11
-
-                // Guardar Estudiante_Carrera en el repositorio
-                estudianteCarreraRepository.insert(estudianteCarrera);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }
