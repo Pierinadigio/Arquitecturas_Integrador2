@@ -9,20 +9,23 @@ public class Estudiante_Carrera {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private boolean isGraduado;
-    private Date fechaInscripcion;
     private int antiguedad;
+    private Date fechaInscripcion;
+    private boolean isGraduado;
+
     @ManyToOne
     private Carrera carrera;
     @ManyToOne
     private Estudiante estudiante;
 
     public boolean isGraduado() {
+
         return isGraduado;
     }
 
     public void setGraduado(boolean graduado) {
-        isGraduado = graduado;
+        this.isGraduado = graduado;
+
     }
 
     public Date getFechaInscripcion() {
@@ -50,6 +53,10 @@ public class Estudiante_Carrera {
 
     public void setAntiguedad() {
         this.antiguedad = calcularAntiguedad();
+    }
+
+    public void setAntiguedad(int antiguedad) {
+        this.antiguedad = antiguedad;
     }
 
     public Carrera getCarrera() {

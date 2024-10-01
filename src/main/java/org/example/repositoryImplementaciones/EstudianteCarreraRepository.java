@@ -57,6 +57,8 @@ public class EstudianteCarreraRepository extends BaseJPARepository<Estudiante_Ca
             estudianteCarrera.setCarrera(carrera);
             estudianteCarrera.setFechaInscripcion(fechaInscripcion);
             estudianteCarrera.setAntiguedad();
+            boolean graduado = estudiante.isGraduado();
+            estudianteCarrera.setGraduado(graduado);
 
             em.persist(estudianteCarrera);
             transaction.commit();

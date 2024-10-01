@@ -13,7 +13,7 @@ public class Estudiante  {
     private String genero;
     private String ciudadResidencia;
     private String numeroLibretaUniversitaria;
-    private boolean graduado = false;
+    private boolean graduado= false;
 
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Estudiante_Carrera> carreras = new ArrayList<>();
